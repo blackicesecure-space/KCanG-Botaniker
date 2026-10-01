@@ -1,0 +1,49 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Users profile collection
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // User integrations (e.g. VIVOSUN account credentials & settings)
+    match /users/{userId}/integrations/{integrationId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // Telemetry snapshots and environmental logs
+    match /users/{userId}/telemetryLogs/{logId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // Root Health inspections and journal
+    match /users/{userId}/rootLogs/{logId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // Trichome Development logs & Harvest timing tracker
+    match /users/{userId}/trichomeLogs/{logId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // Saved Botanical Diagnosis Reports
+    match /users/{userId}/diagnosisReports/{reportId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // Public / shared reference presets
+    match /systemPresets/{presetId} {
+      allow read: if true;
+      allow write: if false;
+    }
+  }
+}

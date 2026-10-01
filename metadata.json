@@ -1,0 +1,6 @@
+{
+  "name": "KCanG AeroBotaniker - Cannabis Aeroponik Diagnose & Behandlungs-Suite",
+  "description": "Botanisch-wissenschaftliche Diagnose, Nährlösungs- und Wurzelanalyse für Cannabis sativa L. in Aeroponik-Systemen nach KCanG.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
