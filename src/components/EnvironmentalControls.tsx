@@ -208,40 +208,6 @@ export const EnvironmentalControls: React.FC<EnvironmentalControlsProps> = ({ on
             </button>
           </div>
         </div>
-
-        {/* Quick Stress Test Simulation Pills */}
-        <div className="pt-4 flex items-center justify-between flex-wrap gap-2 text-xs">
-          <span className="text-slate-400 font-medium flex items-center gap-1.5">
-            <Zap className="w-3.5 h-3.5 text-amber-400" />
-            Sensor-Stresstest simulieren:
-          </span>
-          <div className="flex items-center flex-wrap gap-2">
-            <button
-              onClick={() => injectStressScenario('pythium')}
-              className="px-2.5 py-1 rounded-lg bg-rose-950/50 hover:bg-rose-900/50 border border-rose-500/30 text-rose-300 transition"
-            >
-              ⚠️ Wassertemperatur 24.5 °C (Pythium-Risiko)
-            </button>
-            <button
-              onClick={() => injectStressScenario('phLockout')}
-              className="px-2.5 py-1 rounded-lg bg-amber-950/50 hover:bg-amber-900/50 border border-amber-500/30 text-amber-300 transition"
-            >
-              ⚠️ pH-Drift 6.85 & EC 1.85 (Lockout)
-            </button>
-            <button
-              onClick={() => injectStressScenario('co2Drop')}
-              className="px-2.5 py-1 rounded-lg bg-blue-950/50 hover:bg-blue-900/50 border border-blue-500/30 text-blue-300 transition"
-            >
-              ⚠️ CO₂-Flasche leer (510 ppm)
-            </button>
-            <button
-              onClick={() => injectStressScenario('heatHumidity')}
-              className="px-2.5 py-1 rounded-lg bg-orange-950/50 hover:bg-orange-900/50 border border-orange-500/30 text-orange-300 transition"
-            >
-              ⚠️ Hitzestau 29.5 °C & RLF 34%
-            </button>
-          </div>
-        </div>
       </div>
 
       {/* Recharts Historical 24h Telemetry Chart */}

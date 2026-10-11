@@ -14,10 +14,15 @@ import { RootHealthTracker } from './components/RootHealthTracker';
 import { TrichomeDevelopmentTracker } from './components/TrichomeDevelopmentTracker';
 import { KCanGKnowledgeBase } from './components/KCanGKnowledgeBase';
 import { GrowDashboard } from './components/GrowDashboard';
+import { GrowPhotoDiary } from './components/GrowPhotoDiary';
+import { UserSettingsView } from './components/UserSettingsView';
+import { GrowEquipmentIntegrations } from './components/GrowEquipmentIntegrations';
+import { SystemSensorTest } from './components/SystemSensorTest';
 import { PRESET_CASES } from './data/presets';
 import { saveDiagnosisReportToFirestore } from './services/firestoreData';
 import { GrowConfigProvider } from './config/GrowConfigContext';
 import { GrowConfigSync } from './config/GrowConfigSync';
+import { ThemeProvider, useTheme } from './context/ThemeContext';
 
 const INITIAL_FORM_DATA: CultivationData = {
   strain: '',
@@ -65,6 +70,7 @@ function MainContent() {
   const { telemetry } = useEnvironment();
   const { currentUser } = useAuth();
   const { method, showSelectionModal, setShowSelectionModal } = useCultivationSystem();
+  const { theme } = useTheme();
 
   // Update default pH/EC when method switches
   useEffect(() => {
@@ -147,7 +153,7 @@ function MainContent() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-emerald-500 selection:text-slate-950">
+    <div className={`min-h-screen ${theme === 'light' ? 'bg-slate-100 text-slate-900' : 'bg-slate-950 text-slate-100'} flex flex-col font-sans selection:bg-emerald-500 selection:text-slate-950`}>
       {/* Direct System Selection Modal on Login / App Launch */}
       <SystemSelectionModal
         isOpen={showSelectionModal}
@@ -234,11 +240,23 @@ function MainContent() {
           )
         )}
 
+        {/* Tab: Grow-Tagebuch & Kamera-Galerie */}
+        {activeTab === 'photo-diary' && <GrowPhotoDiary />}
+
         {/* Tab 6: Aeroponik-Kalkulatoren & VPD */}
         {activeTab === 'calculators' && <AeroponicCalculators />}
 
         {/* Tab 7: KCanG Rechtsrahmen & Kompendium */}
         {activeTab === 'knowledge' && <KCanGKnowledgeBase />}
+
+        {/* Tab: Gärtner-Profil & Konten */}
+        {activeTab === 'settings' && <UserSettingsView />}
+
+        {/* Tab: Hardware Hub (10 Anbieter) */}
+        {activeTab === 'hardware-hub' && <GrowEquipmentIntegrations />}
+
+        {/* Tab: System- und Sensortest */}
+        {activeTab === 'system-test' && <SystemSensorTest />}
       </main>
 
       {/* Footer */}
@@ -254,14 +272,16 @@ function MainContent() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <CultivationSystemProvider>
-        <GrowConfigProvider>
-          <EnvironmentProvider>
-            <MainContent />
-          </EnvironmentProvider>
-        </GrowConfigProvider>
-      </CultivationSystemProvider>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <CultivationSystemProvider>
+          <GrowConfigProvider>
+            <EnvironmentProvider>
+              <MainContent />
+            </EnvironmentProvider>
+          </GrowConfigProvider>
+        </CultivationSystemProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }

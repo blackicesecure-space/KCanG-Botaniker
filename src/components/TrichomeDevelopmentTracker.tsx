@@ -699,18 +699,6 @@ export const TrichomeDevelopmentTracker: React.FC = () => {
                   </div>
                 </div>
 
-                {/* KCanG Legal & Curing Guidance */}
-                <div className="bg-slate-950/90 border border-emerald-500/20 rounded-xl p-3 text-xs space-y-1.5">
-                  <div className="flex items-center gap-1.5 font-bold text-emerald-400">
-                    <Scale className="w-3.5 h-3.5" />
-                    <span>KCanG-Richtlinien & Trocknungsleitfaden (§ 9 / § 10):</span>
-                  </div>
-                  <div className="text-[11px] text-slate-300 space-y-1 leading-relaxed">
-                    <p>• {log.kcangGuidance.harvestLimitNotice}</p>
-                    <p>• {log.kcangGuidance.curingAdvice}</p>
-                  </div>
-                </div>
-
                 {/* Notes & Optional Image */}
                 {log.notes && (
                   <div className="text-xs text-slate-300 bg-slate-950/40 p-2.5 rounded-xl border border-slate-800/80">

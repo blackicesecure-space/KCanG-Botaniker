@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Grow, GROWSTORYS_AUTO_PLAN, currentGrowWeek, currentPlanWeek, checkAgainstPlan } from '../data/growPlan';
 import { loadWateringLog, WateringLogEntry } from '../data/wateringLog';
+import { GrowthPrognosisCard } from './GrowthPrognosisCard';
 import { useAuth } from '../context/AuthContext';
 import {
   Sprout,
@@ -408,6 +409,9 @@ export const GrowDashboard: React.FC<GrowDashboardProps> = ({ onNavigateToCalcul
           )}
         </div>
       </div>
+
+      {/* Linear Regression Growth & Harvest Prognosis Module */}
+      <GrowthPrognosisCard grow={grow} />
     </div>
   );
 };

@@ -3,11 +3,13 @@ import { useEnvironment } from '../context/EnvironmentContext';
 import { useAuth } from '../context/AuthContext';
 import { useCultivationSystem } from '../context/CultivationSystemContext';
 import { useGrowConfig } from '../config/GrowConfigContext';
+import { useTheme } from '../context/ThemeContext';
 import { AuthModal } from './AuthModal';
 import { SystemSelectionModal } from './SystemSelectionModal';
 import {
   Activity,
   Sprout,
+  Camera,
   FileText,
   Calculator,
   BookOpen,
@@ -23,9 +25,12 @@ import {
   Wind,
   Layers,
   RefreshCw,
+  Settings,
+  Cpu,
+  Wrench,
 } from 'lucide-react';
 
-export type ActiveTab = 'mygrow' | 'diagnosis' | 'environment' | 'root-log' | 'trichome-log' | 'report' | 'calculators' | 'knowledge';
+export type ActiveTab = 'mygrow' | 'diagnosis' | 'environment' | 'root-log' | 'trichome-log' | 'photo-diary' | 'report' | 'calculators' | 'knowledge' | 'settings' | 'hardware-hub' | 'system-test';
 
 interface HeaderProps {
   activeTab: ActiveTab;
@@ -38,6 +43,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, hasRepo
   const { currentUser } = useAuth();
   const { method, resetSelection } = useCultivationSystem();
   const { config } = useGrowConfig();
+  const { theme, toggleTheme } = useTheme();
 
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [systemModalOpen, setSystemModalOpen] = useState(false);
@@ -86,7 +92,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, hasRepo
               </div>
             </div>
 
-            {/* Badges / System Switcher / Live Telemetry / Auth Button */}
+            {/* Badges / System Switcher / Auth Button */}
             <div className="flex items-center gap-2.5 flex-wrap">
               {/* System Switcher Button */}
               <button
@@ -102,26 +108,6 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, hasRepo
                 <span>System: {isSoil ? 'Soil (Erde)' : 'Aeroponic'}</span>
                 <RefreshCw className="w-3 h-3 opacity-60 ml-0.5" />
               </button>
-
-              {/* KCanG Badge */}
-              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900/90 border border-slate-800 text-[11px] text-slate-300">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                <span className="hidden sm:inline">KCanG § 9/10</span>
-              </div>
-
-              {/* Quick Live Parameters Pill */}
-              <div className="flex items-center gap-2 px-3 py-1 rounded-lg bg-slate-900/90 border border-slate-800 text-xs font-mono">
-                <span className="flex items-center gap-1 text-slate-400">
-                  {settings.isDayCycle ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-indigo-400" />}
-                  <span className="text-slate-200">{telemetry.airTemp.toFixed(1)}°C</span>
-                </span>
-                <span className="text-slate-600">|</span>
-                <span className="text-slate-400">RLF {telemetry.humidity.toFixed(0)}%</span>
-                <span className="text-slate-600">|</span>
-                <span className={telemetry.waterTemp > 21 ? 'text-rose-400 font-bold' : isSoil ? 'text-amber-300' : 'text-cyan-400'}>
-                  {isSoil ? `Gießwasser ${telemetry.waterTemp.toFixed(1)}°C` : `H₂O ${telemetry.waterTemp.toFixed(1)}°C`}
-                </span>
-              </div>
 
               {/* Alerts pill */}
               {alerts.length > 0 && (
@@ -162,6 +148,15 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, hasRepo
                   </>
                 )}
               </button>
+
+              {/* Theme Toggle Button */}
+              <button
+                onClick={toggleTheme}
+                className="flex items-center justify-center p-2 rounded-xl text-xs font-semibold border bg-slate-900/90 border-slate-800 text-slate-300 hover:text-white transition"
+                title={theme === 'dark' ? 'Zu Hellmodus (Light Mode) wechseln' : 'Zu Dunkelmodus (Dark Mode) wechseln'}
+              >
+                {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-indigo-400" />}
+              </button>
             </div>
           </div>
 
@@ -176,7 +171,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, hasRepo
               }`}
             >
               <Sprout className="w-4 h-4 text-amber-400" />
-              <span>🌱 Mein Grow</span>
+              <span>Mein Grow</span>
             </button>
 
             <button
@@ -210,19 +205,19 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, hasRepo
               )}
             </button>
 
-            <button
-              onClick={() => setActiveTab('root-log')}
-              className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition ${
-                activeTab === 'root-log'
-                  ? isSoil
-                    ? 'bg-amber-500 text-slate-950 font-bold shadow-md shadow-amber-500/20'
-                    : 'bg-emerald-500 text-slate-950 font-bold shadow-md shadow-emerald-500/20'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-              }`}
-            >
-              <Microscope className="w-4 h-4" />
-              <span>{isSoil ? 'Wurzel- & Substratkontrolle' : 'Wurzel-Tagebuch & Pythium'}</span>
-            </button>
+            {!isSoil && (
+              <button
+                onClick={() => setActiveTab('root-log')}
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition ${
+                  activeTab === 'root-log'
+                    ? 'bg-emerald-500 text-slate-950 font-bold shadow-md shadow-emerald-500/20'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+                }`}
+              >
+                <Microscope className="w-4 h-4" />
+                <span>Wurzel-Tagebuch & Pythium</span>
+              </button>
+            )}
 
             <button
               onClick={() => setActiveTab('trichome-log')}
@@ -234,6 +229,18 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, hasRepo
             >
               <Eye className="w-4 h-4" />
               <span>Trichom-Reifegrad & Ernte</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('photo-diary')}
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition ${
+                activeTab === 'photo-diary'
+                  ? 'bg-emerald-500 text-slate-950 font-bold shadow-md shadow-emerald-500/20'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+              }`}
+            >
+              <Camera className="w-4 h-4 text-emerald-400" />
+              <span>Grow-Tagebuch</span>
             </button>
 
             <button
@@ -279,6 +286,42 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, hasRepo
             >
               <BookOpen className="w-4 h-4" />
               <span>KCanG Kompendium</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('settings')}
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition ${
+                activeTab === 'settings'
+                  ? 'bg-emerald-500 text-slate-950 font-bold shadow-md shadow-emerald-500/20'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+              }`}
+            >
+              <Settings className="w-4 h-4 text-emerald-400" />
+              <span>Gärtner-Profil & Konten</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('hardware-hub')}
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition ${
+                activeTab === 'hardware-hub'
+                  ? 'bg-cyan-500 text-slate-950 font-bold shadow-md shadow-cyan-500/20'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+              }`}
+            >
+              <Cpu className="w-4 h-4 text-cyan-400" />
+              <span>Equipment & API Hub</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('system-test')}
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition ${
+                activeTab === 'system-test'
+                  ? 'bg-cyan-500 text-slate-950 font-bold shadow-md shadow-cyan-500/20'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+              }`}
+            >
+              <Wrench className="w-4 h-4 text-cyan-400" />
+              <span>System- und Sensortest</span>
             </button>
           </div>
         </div>

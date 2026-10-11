@@ -50,6 +50,8 @@ export interface SensorTelemetry {
   waterTemp: number; // °C
   dissolvedOxygen: number; // mg/L
   reservoirLevelPercent: number; // %
+  soilMoisture?: number; // %
+  soilEc?: number; // mS/cm
   
   // Actuator States
   exhaustFanSpeedPercent: number;
