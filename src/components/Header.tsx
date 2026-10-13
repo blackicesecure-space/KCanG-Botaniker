@@ -170,7 +170,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, hasRepo
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
               }`}
             >
-              <Sprout className="w-4 h-4 text-amber-400" />
+              <Sprout className="w-4 h-4" />
               <span>Mein Grow</span>
             </button>
 
@@ -239,7 +239,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, hasRepo
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
               }`}
             >
-              <Camera className="w-4 h-4 text-emerald-400" />
+              <Camera className="w-4 h-4" />
               <span>Grow-Tagebuch</span>
             </button>
 
@@ -296,7 +296,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, hasRepo
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
               }`}
             >
-              <Settings className="w-4 h-4 text-emerald-400" />
+              <Settings className="w-4 h-4" />
               <span>Gärtner-Profil & Konten</span>
             </button>
 
@@ -308,7 +308,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, hasRepo
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
               }`}
             >
-              <Cpu className="w-4 h-4 text-cyan-400" />
+              <Cpu className="w-4 h-4" />
               <span>Equipment & API Hub</span>
             </button>
 
@@ -320,7 +320,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, hasRepo
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
               }`}
             >
-              <Wrench className="w-4 h-4 text-cyan-400" />
+              <Wrench className="w-4 h-4" />
               <span>System- und Sensortest</span>
             </button>
           </div>
